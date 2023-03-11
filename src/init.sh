@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #file="$1"
-file="pong.c"
+file="pong1.c"
 executable="run"
 gcc -o $executable $file
 ./$executable
