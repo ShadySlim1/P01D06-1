@@ -30,12 +30,12 @@ int main() {
             if (key == 'z' || key == 'a' || key == ' ' || key == 'k' || key == 'm')
                 break;
         }
-        Controller(key, &leftBracketY, &rightBracketY, &last_key_left, &last_key_right);
-        evenHandling(&leftBracketY, &rightBracketY, &ball_X, &ball_Y,
-                     &first_player_score, &second_player_score, &BallPhase,
-                     key, &last_key_left, &last_key_right);
-        print_foo(first_player_score, second_player_score,
-                  leftBracketY, rightBracketY, ball_X, ball_Y);  //отрисовываем
+//        Controller(key, &leftBracketY, &rightBracketY, &last_key_left, &last_key_right);
+//        evenHandling(&leftBracketY, &rightBracketY, &ball_X, &ball_Y,
+//                     &first_player_score, &second_player_score, &BallPhase,
+//                     key, &last_key_left, &last_key_right);
+//        print_foo(first_player_score, second_player_score,
+//                  leftBracketY, rightBracketY, ball_X, ball_Y);
     }
 }
 
