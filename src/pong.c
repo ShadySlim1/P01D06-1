@@ -4,8 +4,8 @@ void print_playing_field(int x_racket1, int y_racket1, int x_racket2, int y_rack
                          int score1, int score2);
 int racket(int y_racket, char movement, int num);
 int scan(char movement);
-void getWinner(int score_racket_left, int s) int ball_in_racket_one(int x_ball, int y_ball, int y_racket_left,
-                                                                    int BallPhase) {
+int getWinner(int score_racket_left, int s);
+int ball_in_racket_one(int x_ball, int y_ball, int y_racket_left, int BallPhase) {
     if (x_ball == 1) {
         if ((y_ball == y_racket_left) || (y_ball == y_racket_left - 1) || (y_ball == y_racket_left + 1)) {
             if (BallPhase == -1)
@@ -94,12 +94,12 @@ int main(void) {
     getWinner(score_racket_left, s);
 }
 
-void getWinner(int score_racket_left, int s) {
+int getWinner(int score_racket_left, int s) {
     if (score_racket_left >= 21)
-        s++ printf("\033[1m\033[4m\033[32m1 win\033[0m\n");
+        printf("\033[1m\033[4m\033[32m1 win\033[0m\n");
     else
         printf("\033[1m\033[4m\033[32m2 win\033[0m\n");
-    return s
+    return s;
 }
 
 void print_playing_field(int x_racket1, int y_racket1, int x_racket2, int y_racket2, int x_ball, int y_ball,
