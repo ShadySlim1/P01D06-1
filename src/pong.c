@@ -76,16 +76,16 @@ int main(void) {
 
         switch (BallPhase) {
             case -1:
-                s = --y_ball || --x_ball;
+                s = --y_ball + --x_ball;
                 break;
             case -2:
-                s = --y_ball || ++x_ball;
+                s = --y_ball + ++x_ball;
                 break;
             case 1:
-                s = ++y_ball || --x_ball;
+                s = ++y_ball + --x_ball;
                 break;
             case 2:
-                s = ++y_ball || ++x_ball;
+                s = ++y_ball + ++x_ball;
                 break;
         }
         print_playing_field(0, y_racket_left, 79, y_racket_rigth, x_ball, y_ball, score_racket_left,
