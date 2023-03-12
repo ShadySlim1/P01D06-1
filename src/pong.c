@@ -51,10 +51,9 @@ int main(void) {
     print_playing_field(0, y_racket_left, 79, y_racket_rigth, x_ball, y_ball, score_racket_left,
                         score_racket_right);
     while (score_racket_left < 21 && score_racket_right < 21) {
-        while (1) {
-            scanf("%c", &movement_left);
-            if (scan(movement_left) == 1) break;  // без этой проверки не работает с пробелом
-        }
+        while (1)
+            if (scanf("%c", &movement_left) && scan(movement_left) == 1)
+                break;  // без этой проверки не работает с пробелом
         char movement_rigth = movement_left;
         y_racket_left = set_y_racket_left(y_racket_left, movement_left);
         y_racket_rigth = set_y_racket_right(y_racket_rigth, movement_rigth);
