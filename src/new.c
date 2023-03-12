@@ -4,25 +4,10 @@ void print_playing_field(int x_racket1, int y_racket1, int x_racket2, int y_rack
                          int score1, int score2);
 
 int racket(int y_racket, char movement, int num);
-int is_racket_hit_two_bracket(int x_ball, int y_ball, int y_racket_left, int BallPhase);
-int is_racket_hit_two_bracket(int x_ball, int y_ball, int y_racket_left, int BallPhase);
-int main(void) {
-<<<<<<< HEAD
-    int score_racket_left = 0;   //  cчет левого
-    int score_racket_right = 0;  // счет правого
-    int y_racket_left = 12;      // положение по игреку у левой ракетки
-    int y_racket_rigth = 12;     // положение по игреку у правой ракетки
-    int x_ball = 39;  // положение мяча по иксу (пока сделала чисто по середине)
-    int y_ball = 11;  // положение мяча по игреку (пока сделала чисто по середине)
-    char movement_left, movement_rigth;  // команды для передвижения ракеток
-    int BallPhase = -1;                  // вектор мяча
-    // сначала просто выводим поле чтоб понимать че куда
-    print_playing_field(0, y_racket_left, 79, y_racket_rigth, x_ball, y_ball, score_racket_left,
-                        score_racket_right);
+int is_racket_hit_one_bracket(int x_ball, int y_ball, int y_racket_left, int BallPhase);
+int is_racket_hit_two_bracket(int x_ball, int y_ball, int y_racket_rigth, int BallPhase);
 
-    // пока никто не победил то продолжаем игру писать команды двигать мяч итд
-    while (score_racket_left < 21 || score_racket_right < 21) {
-=======
+int main(void) {
     int score_racket_left = 0;   //  cчет левого
     int score_racket_right = 0;  // счет правого
     int y_racket_left = 12;      // положение по игреку у левой ракетки
@@ -31,18 +16,21 @@ int main(void) {
     int y_ball = 11;  // положение мяча по игреку (пока сделала чисто по середине)
     char movement_left, movement_rigth;  // команды для передвижения ракеток
     int BallPhase = -1;                  // вектор мяча
-    char last_key_left;
     print_playing_field(0, y_racket_left, 79, y_racket_rigth, x_ball, y_ball, score_racket_left,
                         score_racket_right);
-    while (score_racket_left < 21 && score_racket_right < 21) {
->>>>>>> f689e7b5498c33b058d9551a805310bc8b24a694
+    while (score_racket_left < 21 || score_racket_right < 21) {
+        // считываем чисто все наши команды
+        while (1) {
+            scanf("%c", &movement_left);
+            movement_rigth = movement_left;
+            if (movement_left == 'z' || movement_left == 'a' || movement_left == ' ' ||
+                movement_left == 'k' || movement_left == 'm')
+                break;  // без этой проверки не работает с пробелом
+        }
+
         movement_rigth = movement_left;
         if (racket(y_racket_left, movement_left, 1) ==
-<<<<<<< HEAD
-            1) {  // если мы не вышли за границы то меняем положение ракеток иначе ничего не делаем
-=======
             1) {  // если мы не вышли за границы то меняем положение ракеток иначе
->>>>>>> f689e7b5498c33b058d9551a805310bc8b24a694
             if (movement_left == 'a') {
                 y_racket_left = y_racket_left - 1;  // двигаемся вверх
             } else if (movement_left == 'z') {
@@ -50,62 +38,24 @@ int main(void) {
             }
         }
         if (racket(y_racket_rigth, movement_rigth, 2) ==
-<<<<<<< HEAD
-            1) {  // если мы не вышли за границы то меняем положение ракеток иначе ничего не делаем
-=======
             1) {  // если мы не вышли за границы то меняем положение ракеток иначе
->>>>>>> f689e7b5498c33b058d9551a805310bc8b24a694
             if (movement_rigth == 'k') {
                 y_racket_rigth = y_racket_rigth - 1;  // двигаемся вверх
             } else if (movement_rigth == 'm') {
-<<<<<<< HEAD
                 y_racket_rigth = y_racket_rigth + 1;  // двигаемся вниз
             }
         }
 
-        // проверяем попала ли первая ракетка в мяч
-        if (x_ball == 1) {
-            // по 3 позициям
-            if ((y_ball == y_racket_left) || (y_ball == y_racket_left - 1) || (y_ball == y_racket_left + 1)) {
-                if (BallPhase == -1) {
-                    BallPhase = -2;
-                } else {
-                    BallPhase = 2;
-                }
-            }
-        }
-        // проверяем вышел ли наш мяч за границы первого, если да то даём балл второму игроку
+        BallPhase = is_racket_hit_one_bracket(x_ball, y_ball, y_racket_left, BallPhase);
         if (x_ball == 0) {
             if ((y_ball != y_racket_left) && (y_ball != y_racket_left - 1) && (y_ball != y_racket_left + 1)) {
-=======
-                y_racket_rigth = y_racket_rigth + 1;  // двигаемся вниз
-            }
-        }
-        BallPhase = is_racket_hit_one_bracket(x_ball, y_ball, y_racket_left, BallPhase) if (x_ball == 0) {
-            if ((y_ball != y_racket_left) && (y_ball != y_racket_left - 1) && (y_ball != y_racket_left + 1)) {
->>>>>>> f689e7b5498c33b058d9551a805310bc8b24a694
                 score_racket_right++;
                 x_ball = 39;
                 y_ball = 12;
             }
         }
-<<<<<<< HEAD
-        // проверяем попала ли вторая ракетка в мяч
-        if (x_ball == 78) {
-            if ((y_ball == y_racket_rigth) || (y_ball == y_racket_rigth - 1) ||
-                (y_ball == y_racket_rigth + 1)) {
-                if (BallPhase == 2) {
-                    BallPhase = 1;
-                } else {
-                    BallPhase = -1;
-                }
-            }
-        }
-        // проверяем вышел ли наш мяч за границы первого, если да то даём балл первому игроку
+        BallPhase = is_racket_hit_two_bracket(x_ball, y_ball, y_racket_left, BallPhase);
         if (x_ball == 79) {
-=======
-        BallPhase = is_racket_hit_two_bracket(x_ball, y_ball, y_racket_left, BallPhase) if (x_ball == 79) {
->>>>>>> f689e7b5498c33b058d9551a805310bc8b24a694
             if ((y_ball != y_racket_rigth) && (y_ball != y_racket_rigth - 1) &&
                 (y_ball != y_racket_rigth + 1)) {
                 score_racket_left++;
@@ -113,22 +63,8 @@ int main(void) {
                 y_ball = 12;
             }
         }
-<<<<<<< HEAD
-
-        // Меняем траекторию мяча если вверх то вниз и обратно. Такая система у нас
-        // работает, так как при отрицательном значение идёт вверх, при
-        // положительном вниз. А от направления влево право влияет значение:
-        // 1-влево, 2-вправо
-        if ((y_ball == 1) || (y_ball == 23)) {
-            BallPhase = -BallPhase;
-        }
-        // от BallPhase зависит вектор мяча
-        switch (BallPhase) {
-            // вверх налево
-=======
         if ((y_ball == 1) || (y_ball == 23)) BallPhase = -BallPhase;
         switch (BallPhase) {
->>>>>>> f689e7b5498c33b058d9551a805310bc8b24a694
             case -1:
                 y_ball = y_ball - 1;
                 x_ball = x_ball - 1;
@@ -157,28 +93,28 @@ int main(void) {
 }
 
 int is_racket_hit_one_bracket(int x_ball, int y_ball, int y_racket_left, int BallPhase) {
+    int ans = 2;
     if (x_ball == 1) {
         // по 3 позициям
         if ((y_ball == y_racket_left) || (y_ball == y_racket_left - 1) || (y_ball == y_racket_left + 1)) {
             if (BallPhase == -1) {
-                return -2;
-            } else {
-                return 2;
+                ans = -2;
             }
         }
     }
+    return ans;
 }
 
-int is_racket_hit_two_bracket(int x_ball, int y_ball, int y_racket_left, int BallPhase) {
+int is_racket_hit_two_bracket(int x_ball, int y_ball, int y_racket_rigth, int BallPhase) {
+    int ans = -1;
     if (x_ball == 78) {
         if ((y_ball == y_racket_rigth) || (y_ball == y_racket_rigth - 1) || (y_ball == y_racket_rigth + 1)) {
             if (BallPhase == 2) {
-                return 1;
-            } else {
-                return -1;
+                ans = 1;
             }
         }
     }
+    return ans;
 }
 
 // выводим игровое поле
@@ -196,17 +132,6 @@ void print_playing_field(int x_racket1, int y_racket1, int x_racket2, int y_rack
     }
     printf("\n");
     while (y != 25) {
-<<<<<<< HEAD
-        if (y == 0 || y == 24) {  // выводим нижнюю и верхнюю границу
-            for (int i = 0; i < 80; i++) {
-                printf("-");
-            }
-        } else {  // если не граница то мы начинаем выводить остальные строки
-            for (int i = 0; i < 80; i++) {
-                if (x_ball == i && y_ball == y) {  // мяч
-                    printf("*");
-                } else if (x_racket1 == i && y_racket1 == y) {  // ракетка 1 (левая)
-=======
         // выводим нижнюю и верхнюю границу
         if (y == 0 || y == 24) {
             for (int i = 0; i < 80; i++) printf("-");
@@ -216,20 +141,15 @@ void print_playing_field(int x_racket1, int y_racket1, int x_racket2, int y_rack
                 if (x_ball == i && y_ball == y) printf("*");
                 // ракетка 1 (левая)
                 else if (x_racket1 == i && y_racket1 == y) {
->>>>>>> f689e7b5498c33b058d9551a805310bc8b24a694
                     printf("|");
                 } else if (x_racket1 == i && (y_racket1 + 1) == y) {
                     printf("|");
                 } else if (x_racket1 == i && (y_racket1 + 2) == y) {
                     printf("|");
-<<<<<<< HEAD
-                } else if (x_racket2 == i && y_racket2 == y) {  // ракетка 2 (правая)
-=======
                 }
 
                 //  ракетка 2 (правая)
                 else if (x_racket2 == i && y_racket2 == y) {
->>>>>>> f689e7b5498c33b058d9551a805310bc8b24a694
                     printf("|");
                 } else if (x_racket2 == i && (y_racket2 + 1) == y) {
                     printf("|");

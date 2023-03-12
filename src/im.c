@@ -1,18 +1,18 @@
 #include <stdio.h>
 
 void print_foo(int first_player, int second_player, int racket1, int racket2, int ball2, int ball1);
-void Controller(char key, int *LeftRacket_y_Cord, int *RightRacket_y_Cord,
-                char* last_key_left, char* last_Key_right);
-void evenHandling(int *LeftRacket_y_Cord, int *RightRacket_y_Cord, int *Ball_cord_x,
-                  int *Ball_cord_y, int *ScoreL, int *ScoreR, int *BallPhase, char key,
-                  char *last_key_left, char *last_key_right);
+void Controller(char key, int *LeftRacket_y_Cord, int *RightRacket_y_Cord, char *last_key_left,
+                char *last_Key_right);
+void evenHandling(int *LeftRacket_y_Cord, int *RightRacket_y_Cord, int *Ball_cord_x, int *Ball_cord_y,
+                  int *ScoreL, int *ScoreR, int *BallPhase, char key, char *last_key_left,
+                  char *last_key_right);
 
 int main() {
     int first_player_score = 0;  //счёт
     int second_player_score = 0;
     char key;
     int leftBracketY = 12, rightBracketY = 12;  //координаты ракеток
-    int ball_X = 40, ball_Y = 12;  //координаты мяча
+    int ball_X = 40, ball_Y = 12;               //координаты мяча
     char last_key_left;
     char last_key_right;
     int BallPhase = -1;
@@ -27,17 +27,15 @@ int main() {
         }
         while (1) {
             scanf("%c", &key);
-            if (key == 'z' || key == 'a' || key == ' ' || key == 'k' || key == 'm')
-                break;
+            if (key == 'z' || key == 'a' || key == ' ' || key == 'k' || key == 'm') break;
 
-            printf("%c", key);    
+            printf("%c", key);
         }
         Controller(key, &leftBracketY, &rightBracketY, &last_key_left, &last_key_right);
-        evenHandling(&leftBracketY, &rightBracketY, &ball_X, &ball_Y,
-                     &first_player_score, &second_player_score, &BallPhase,
-                     key, &last_key_left, &last_key_right);
-        print_foo(first_player_score, second_player_score,
-                  leftBracketY, rightBracketY, ball_X, ball_Y);  //отрисовываем
+        evenHandling(&leftBracketY, &rightBracketY, &ball_X, &ball_Y, &first_player_score,
+                     &second_player_score, &BallPhase, key, &last_key_left, &last_key_right);
+        print_foo(first_player_score, second_player_score, leftBracketY, rightBracketY, ball_X,
+                  ball_Y);  //отрисовываем
     }
 }
 
@@ -69,7 +67,7 @@ void print_foo(int first_player, int second_player, int racket1, int racket2, in
                 mat[i][j] = '-';
             } else if (i == ball1 && j == ball2) {
                 mat[i][j] = '@';
-            } else  if (j == 39 || j == 40) {
+            } else if (j == 39 || j == 40) {
                 mat[i][j] = '|';
             } else if (i == (racket1 - 1) && j == 0) {
                 mat[i][j] = '%';
@@ -102,12 +100,12 @@ void print_foo(int first_player, int second_player, int racket1, int racket2, in
     }
 }
 
-void evenHandling(int *LeftRacket_y_Cord, int *RightRacket_y_Cord, int *Ball_cord_x,
-                  int *Ball_cord_y, int *ScoreL, int *ScoreR, int *BallPhase,
-                  char key, char *last_key_left, char *last_key_right) {
+void evenHandling(int *LeftRacket_y_Cord, int *RightRacket_y_Cord, int *Ball_cord_x, int *Ball_cord_y,
+                  int *ScoreL, int *ScoreR, int *BallPhase, char key, char *last_key_left,
+                  char *last_key_right) {
     if (*Ball_cord_x == 1) {
-        if ((*Ball_cord_y == *LeftRacket_y_Cord) ||
-            (*Ball_cord_y == *LeftRacket_y_Cord - 1) || (*Ball_cord_y == *LeftRacket_y_Cord + 1)) {
+        if ((*Ball_cord_y == *LeftRacket_y_Cord) || (*Ball_cord_y == *LeftRacket_y_Cord - 1) ||
+            (*Ball_cord_y == *LeftRacket_y_Cord + 1)) {
             if (*last_key_left == 'a') {
                 *BallPhase = -2;
             } else {
@@ -116,16 +114,16 @@ void evenHandling(int *LeftRacket_y_Cord, int *RightRacket_y_Cord, int *Ball_cor
         }
     }
     if (*Ball_cord_x == 0) {
-        if ((*Ball_cord_y != *LeftRacket_y_Cord) && (*Ball_cord_y != *LeftRacket_y_Cord - 1)
-            && (*Ball_cord_y != *LeftRacket_y_Cord + 1)) {
+        if ((*Ball_cord_y != *LeftRacket_y_Cord) && (*Ball_cord_y != *LeftRacket_y_Cord - 1) &&
+            (*Ball_cord_y != *LeftRacket_y_Cord + 1)) {
             (*ScoreR)++;
             *Ball_cord_x = 39;
             *Ball_cord_y = 12;
         }
     }
     if (*Ball_cord_x == 78) {
-        if ((*Ball_cord_y == *RightRacket_y_Cord) ||
-            (*Ball_cord_y == *RightRacket_y_Cord - 1) || (*Ball_cord_y == *RightRacket_y_Cord + 1)) {
+        if ((*Ball_cord_y == *RightRacket_y_Cord) || (*Ball_cord_y == *RightRacket_y_Cord - 1) ||
+            (*Ball_cord_y == *RightRacket_y_Cord + 1)) {
             if (*last_key_left == 'k') {
                 *BallPhase = -1;
             } else {
@@ -134,15 +132,15 @@ void evenHandling(int *LeftRacket_y_Cord, int *RightRacket_y_Cord, int *Ball_cor
         }
     }
     if (*Ball_cord_x == 79) {
-        if ((*Ball_cord_y != *RightRacket_y_Cord) && (*Ball_cord_y != *RightRacket_y_Cord - 1)
-            && (*Ball_cord_y != *RightRacket_y_Cord + 1)) {
+        if ((*Ball_cord_y != *RightRacket_y_Cord) && (*Ball_cord_y != *RightRacket_y_Cord - 1) &&
+            (*Ball_cord_y != *RightRacket_y_Cord + 1)) {
             (*ScoreL)++;
             *Ball_cord_x = 39;
             *Ball_cord_y = 12;
         }
     }
     if ((*Ball_cord_y == 1) || (*Ball_cord_y == 23)) {
-        *BallPhase = - *BallPhase;
+        *BallPhase = -*BallPhase;
     }
     switch (*BallPhase) {
         case -1:
@@ -164,7 +162,7 @@ void evenHandling(int *LeftRacket_y_Cord, int *RightRacket_y_Cord, int *Ball_cor
     }
 }
 
-void Controller(char key, int *leftRacketY, int *rightRacketY, char* last_key_left, char* last_key_right) {
+void Controller(char key, int *leftRacketY, int *rightRacketY, char *last_key_left, char *last_key_right) {
     if (key == 'a') {
         if (*leftRacketY > 2) {
             *leftRacketY = *leftRacketY - 1;
