@@ -73,7 +73,6 @@ int main(void) {
                 y_ball = 12;
             }
         if ((y_ball == 1) || (y_ball == 23)) BallPhase = -BallPhase;
-
         switch (BallPhase) {
             case -1:
                 s = --y_ball + --x_ball;
