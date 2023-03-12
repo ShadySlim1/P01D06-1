@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void print_playing_field(int x_racket1, int y_racket1, int x_racket2, int y_racket2, int x_ball, int y_ball);
 
 int main(void) {
@@ -76,179 +77,222 @@ int main() {
     char key;
     int leftBracketY = 12, rightBracketY = 12;  //координаты ракеток
     int ball_X = 40, ball_Y = 12;  //координаты мяча
+=======
+void print_playing_field(int x_racket1, int y_racket1, int x_racket2,
+                         int y_racket2, int x_ball, int y_ball, int score1,
+                         int score2);
+
+int racket(int y_racket, char movement, int num);
+
+int main(void) {
+
+    int score_racket_left = 0;  //  cчет левого
+    int score_racket_right = 0; // счет правого
+    int y_racket_left = 12; // положение по игреку у левой ракетки
+    int y_racket_rigth = 12; // положение по игреку у правой ракетки
+    int x_ball = 39; // положение мяча по иксу (пока сделала чисто по середине)
+    int y_ball = 11; // положение мяча по игреку (пока сделала чисто по середине)
+    char movement_left, movement_rigth; // команды для передвижения ракеток
+    int BallPhase = -1; // вектор мяча
+>>>>>>> edda94d662d468e0614fe56ca57ad7a9fdeb7f8e
     char last_key_left;
-    char last_key_right;
-    int BallPhase = -1;
-    print_foo(first_player_score, second_player_score, leftBracketY, rightBracketY, ball_X, ball_Y);
-    while (1) {  //главный цикл программы
-        if (first_player_score == 21) {
-            printf("Ура! Игрок слева победил!\n");
-            return 0;
-        } else if (second_player_score == 21) {
-            printf("Ура! Игрок справа победил!\n");
-            return 0;
-        }
+    // сначала просто выводим поле чтоб понимать че куда
+    print_playing_field(0, y_racket_left, 79, y_racket_rigth, x_ball, y_ball,
+                        score_racket_left, score_racket_right);
+
+    // пока никто не победил то продолжаем игру писать команды двигать мяч итд
+    while (score_racket_left < 21 && score_racket_right < 21) {
+
+        // считываем чисто все наши команды
         while (1) {
-            scanf("%c", &key);
-            if (key == 'z' || key == 'a' || key == ' ' || key == 'k' || key == 'm')
+            scanf("%c", &movement_left);
+            movement_rigth = movement_left;
+            if (movement_left == 'z' || movement_left == 'a' ||
+                movement_left == ' ' || movement_left == 'k' || movement_left == 'm')
+                break; // без этой проверки не работает с пробелом
+        }
+
+        movement_rigth = movement_left;
+        if (racket(y_racket_left, movement_left, 1) ==
+            1) { // если мы не вышли за границы то меняем положение ракеток иначе
+            // ничего не делаем
+            if (movement_left == 'a') {
+                y_racket_left = y_racket_left - 1; // двигаемся вверх
+            } else if (movement_left == 'z') {
+                y_racket_left = y_racket_left + 1; // двигаемся вниз
+            }
+        }
+
+        if (racket(y_racket_rigth, movement_rigth, 2) ==
+            1) { // если мы не вышли за границы то меняем положение ракеток иначе
+            // ничего не делаем
+            if (movement_rigth == 'k') {
+                y_racket_rigth = y_racket_rigth - 1; // двигаемся вверх
+            } else if (movement_rigth == 'm') {
+                y_racket_rigth = y_racket_rigth + 1; // двигаемся вниз
+            }
+        }
+
+        //  здесь происходит все относительно мяча следовательно и подсчета очков
+
+        // проверяем попала ли первая ракетка в мяч
+        if (x_ball == 1) {
+            // по 3 позициям
+            if ((y_ball == y_racket_left) || (y_ball == y_racket_left - 1) ||
+                (y_ball == y_racket_left + 1)) {
+                if (BallPhase == -1) {
+                    BallPhase = -2;
+                } else {
+                    BallPhase = 2;
+                }
+            }
+        }
+        // проверяем вышел ли наш мяч за границы первого, если да то даём балл
+        // второму игроку
+        if (x_ball == 0) {
+            if ((y_ball != y_racket_left) && (y_ball != y_racket_left - 1) &&
+                (y_ball != y_racket_left + 1)) {
+                score_racket_right++;
+                x_ball = 39;
+                y_ball = 12;
+            }
+        }
+        // проверяем попала ли вторая ракетка в мяч
+        if (x_ball == 78) {
+            if ((y_ball == y_racket_rigth) || (y_ball == y_racket_rigth - 1) ||
+                (y_ball == y_racket_rigth + 1)) {
+                if (BallPhase == 2) {
+                    BallPhase = 1;
+                } else {
+                    BallPhase = -1;
+                }
+            }
+        }
+        // проверяем вышел ли наш мяч за границы первого, если да то даём балл
+        // первому игроку
+        if (x_ball == 79) {
+            if ((y_ball != y_racket_rigth) && (y_ball != y_racket_rigth - 1) &&
+                (y_ball != y_racket_rigth + 1)) {
+                score_racket_left++;
+                x_ball = 39;
+                y_ball = 12;
+            }
+        }
+        // Меняем траекторию мяча если вверх то вниз и обратно. Такая система у нас
+        // работает, так как при отрицательном значение идёт вверх, при
+        // положительном вниз. А от направления влево право влияет значение:
+        // 1-влево, 2- вправо
+        if ((y_ball == 1) || (y_ball == 23)) {
+            BallPhase = -BallPhase;
+        }
+        // от BallPhase зависит вектор мяча
+        switch (BallPhase) {
+            // вверх лево
+            case -1:
+                y_ball = y_ball - 1;
+                x_ball = x_ball - 1;
+                break;
+                // вверх право
+            case -2:
+                y_ball = y_ball - 1;
+                x_ball = x_ball + 1;
+                break;
+                // вниз влево
+            case 1:
+                y_ball = y_ball + 1;
+                x_ball = x_ball - 1;
+                break;
+                // вниз вправо
+            case 2:
+                y_ball = y_ball + 1;
+                x_ball = x_ball + 1;
                 break;
         }
-        Controller(key, &leftBracketY, &rightBracketY, &last_key_left, &last_key_right);
-        evenHandling(&leftBracketY, &rightBracketY, &ball_X, &ball_Y,
-                     &first_player_score, &second_player_score, &BallPhase,
-                     key, &last_key_left, &last_key_right);
-        print_foo(first_player_score, second_player_score,
-                  leftBracketY, rightBracketY, ball_X, ball_Y);  //отрисовываем
+
+        //  после команд снова выводим наше поле (но когда появится мяч то наверн
+        //  несколько раз придется для быстроты выводить)
+        print_playing_field(0, y_racket_left, 79, y_racket_rigth, x_ball, y_ball,
+                            score_racket_left, score_racket_right);
     }
+    if (score_racket_left >= 21)
+        printf("\033[1m\033[4m\033[32m1 win\033[0m\n");
+    else
+        printf("\033[1m\033[4m\033[32m2 win\033[0m\n");
+
+    return 0;
 }
 
-void print_foo(int first_player, int second_player, int racket1, int racket2, int ball2, int ball1) {
-    char mat[25][80];
-    int string = 25;
-    int column = 80;
-    int i;
-    int j;
 
-    int A, B, C, D;
-    char a, b, c, d;
+// выводим игровое поле
+void print_playing_field(int x_racket1, int y_racket1, int x_racket2,
+                         int y_racket2, int x_ball, int y_ball, int score1,
+                         int score2) {
+    int y = 0;
 
-    A = first_player / 10;
-    B = first_player % 10;
-    C = second_player / 10;
-    D = second_player % 10;
-    a = (char)A + '0';
-    b = (char)B + '0';
-    c = (char)C + '0';
-    d = (char)D + '0';
-
-    for (i = 0; i < string; i++) {
-        for (j = 0; j < column; j++) {
-            mat[i][j] = ' ';
-            if (i == 0) {
-                mat[i][j] = '-';
-            } else if (i == string - 1) {
-                mat[i][j] = '-';
-            } else if (i == ball1 && j == ball2) {
-                mat[i][j] = '@';
-            } else  if (j == 39 || j == 40) {
-                mat[i][j] = '|';
-            } else if (i == (racket1 - 1) && j == 0) {
-                mat[i][j] = '%';
-            } else if (i == racket1 && j == 0) {
-                mat[i][j] = '%';
-            } else if (i == (racket1 + 1) && j == 0) {
-                mat[i][j] = '%';
-            } else if (i == (racket2 - 1) && j == column - 1) {
-                mat[i][j] = '%';
-            } else if (i == racket2 && j == column - 1) {
-                mat[i][j] = '%';
-            } else if (i == (racket2 + 1) && j == column - 1) {
-                mat[i][j] = '%';
-            } else if (i == 1 && j == 37) {
-                mat[i][j] = a;
-            } else if (i == 1 && j == 38) {
-                mat[i][j] = b;
-            } else if (i == 1 && j == 41) {
-                mat[i][j] = c;
-            } else if (i == 1 && j == 42) {
-                mat[i][j] = d;
-            }
-        }
+    // выводим счет
+    for (int i = 0; i < 80; i++) {
+        if (i == 37) {
+            printf("%d", score1);
+        } else if (i == 40) {
+            printf("%d", score2);
+        } else
+            printf(" ");
     }
-    for (i = 0; i < string; i++) {
-        for (j = 0; j < column; j++) {
-            printf("%c", mat[i][j]);
+    printf("\n");
+
+    while (y != 25) {
+        // выводим нижнюю и верхнюю границу
+        if (y == 0 || y == 24) {
+            for (int i = 0; i < 80; i++) {
+                printf("-");
+            }
+        } else { // если не граница? то мы начинаем выводить остальные строки
+            for (int i = 0; i < 80; i++) {
+                // мяч
+                if (x_ball == i && y_ball == y) {
+                    printf("*");
+                }
+
+                    // ракетка 1 (левая)
+                else if (x_racket1 == i && y_racket1 == y) {
+                    printf("|");
+                } else if (x_racket1 == i && (y_racket1 + 1) == y) {
+                    printf("|");
+                } else if (x_racket1 == i && (y_racket1 + 2) == y) {
+                    printf("|");
+                }
+
+                    //  ракетка 2 (правая)
+                else if (x_racket2 == i && y_racket2 == y) {
+                    printf("|");
+                } else if (x_racket2 == i && (y_racket2 + 1) == y) {
+                    printf("|");
+                } else if (x_racket2 == i && (y_racket2 + 2) == y) {
+                    printf("|");
+                } else {
+                    printf(" ");
+                }
+            }
         }
         printf("\n");
-    }
-}
-
-void evenHandling(int *LeftRacket_y_Cord, int *RightRacket_y_Cord, int *Ball_cord_x,
-                  int *Ball_cord_y, int *ScoreL, int *ScoreR, int *BallPhase,
-                  char key, char *last_key_left, char *last_key_right) {
-    if (*Ball_cord_x == 1) {
-        if ((*Ball_cord_y == *LeftRacket_y_Cord) ||
-            (*Ball_cord_y == *LeftRacket_y_Cord - 1) || (*Ball_cord_y == *LeftRacket_y_Cord + 1)) {
-            if (*last_key_left == 'a') {
-                *BallPhase = -2;
-            } else {
-                *BallPhase = 2;
-            }
-        }
-    }
-    if (*Ball_cord_x == 0) {
-        if ((*Ball_cord_y != *LeftRacket_y_Cord) && (*Ball_cord_y != *LeftRacket_y_Cord - 1)
-            && (*Ball_cord_y != *LeftRacket_y_Cord + 1)) {
-            (*ScoreR)++;
-            *Ball_cord_x = 39;
-            *Ball_cord_y = 12;
-        }
-    }
-    if (*Ball_cord_x == 78) {
-        if ((*Ball_cord_y == *RightRacket_y_Cord) ||
-            (*Ball_cord_y == *RightRacket_y_Cord - 1) || (*Ball_cord_y == *RightRacket_y_Cord + 1)) {
-            if (*last_key_left == 'k') {
-                *BallPhase = -1;
-            } else {
-                *BallPhase = 1;
-            }
-        }
-    }
-    if (*Ball_cord_x == 79) {
-        if ((*Ball_cord_y != *RightRacket_y_Cord) && (*Ball_cord_y != *RightRacket_y_Cord - 1)
-            && (*Ball_cord_y != *RightRacket_y_Cord + 1)) {
-            (*ScoreL)++;
-            *Ball_cord_x = 39;
-            *Ball_cord_y = 12;
-        }
-    }
-    if ((*Ball_cord_y == 1) || (*Ball_cord_y == 23)) {
-        *BallPhase = - *BallPhase;
-    }
-    switch (*BallPhase) {
-        case -1:
-            *Ball_cord_y = *Ball_cord_y - 1;
-            *Ball_cord_x = *Ball_cord_x - 1;
-            break;
-        case -2:
-            *Ball_cord_y = *Ball_cord_y - 1;
-            *Ball_cord_x = *Ball_cord_x + 1;
-            break;
-        case 1:
-            *Ball_cord_y = *Ball_cord_y + 1;
-            *Ball_cord_x = *Ball_cord_x - 1;
-            break;
-        case 2:
-            *Ball_cord_y = *Ball_cord_y + 1;
-            *Ball_cord_x = *Ball_cord_x + 1;
-            break;
-    }
-}
-
-void Controller(char key, int *leftRacketY, int *rightRacketY, char* last_key_left, char* last_key_right) {
-    if (key == 'a') {
-        if (*leftRacketY > 2) {
-            *leftRacketY = *leftRacketY - 1;
-            *last_key_left = 'a';
-        }
-    }
-    if (key == 'z') {
-        if (*leftRacketY < 22) {
-            *leftRacketY = *leftRacketY + 1;
-            *last_key_left = 'z';
-        }
-    }
-    if (key == 'k') {
-        if (*rightRacketY > 2) {
-            *rightRacketY = *rightRacketY - 1;
-            *last_key_right = 'k';
-        }
-    }
-    if (key == 'm') {
-        if (*rightRacketY < 22) {
-            *rightRacketY = *rightRacketY + 1;
-            *last_key_right = 'm';
-        }
+        y++;
     }
 >>>>>>> f9848c5ee5dc6dc4fe164444c4547e73330ecbec
+}
+
+//  проверка на выходы за границы ракеток чтоб чекнуть нужно ли менять их
+//  положение на поле
+int racket(int y_racket, char movement, int num) {
+    int ans = 0; // если не выходим за границы то возвращаем 1 следовательно будем
+    // потом менять положение ракеток
+    if (num == 1 && movement == 'a' && (y_racket - 1 != 0)) {
+        ans = 1;
+    } else if (num == 1 && movement == 'z' && (y_racket + 1 != 22)) {
+        ans = 1;
+    } else if (num == 2 && movement == 'k' && (y_racket - 1 != 0)) {
+        ans = 1;
+    } else if (num == 2 && movement == 'm' && (y_racket + 1 != 22)) {
+        ans = 1;
+    }
+    return ans;
 }
