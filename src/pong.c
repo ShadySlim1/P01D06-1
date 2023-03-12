@@ -7,37 +7,40 @@ int racket(int y_racket, char movement, int num);
 int scan(char movement);
 
 int ball_in_racket_one(int x_ball, int y_ball, int y_racket_left, int BallPhase) {
-    if (x_ball == 1)
-        if ((y_ball == y_racket_left) || (y_ball == y_racket_left - 1) || (y_ball == y_racket_left + 1))
+    if (x_ball == 1) {
+        if ((y_ball == y_racket_left) || (y_ball == y_racket_left - 1) || (y_ball == y_racket_left + 1)) {
             if (BallPhase == -1)
                 return -2;
             else
                 return 2;
+        }
+    }
     return BallPhase;
 }
 int ball_in_racket_two(int x_ball, int y_ball, int y_racket_rigth, int BallPhase) {
-    if (x_ball == 78)
-        if ((y_ball == y_racket_rigth) || (y_ball == y_racket_rigth - 1) || (y_ball == y_racket_rigth + 1))
+    if (x_ball == 78) {
+        if ((y_ball == y_racket_rigth) || (y_ball == y_racket_rigth - 1) || (y_ball == y_racket_rigth + 1)) {
             if (BallPhase == 2)
                 return 1;
             else
                 return -1;
+        }
+    }
     return BallPhase;
 }
 
 int main(void) {
     int score_racket_left = 0, score_racket_right = 0, y_racket_left = 12, y_racket_rigth = 12, x_ball = 39,
         y_ball = 11, BallPhase = -1;
-    char movement_left, movement_rigth;
+    char movement_left;
     print_playing_field(0, y_racket_left, 79, y_racket_rigth, x_ball, y_ball, score_racket_left,
                         score_racket_right);
     while (score_racket_left < 21 && score_racket_right < 21) {
         while (1) {
             scanf("%c", &movement_left);
-            movement_rigth = movement_left;
             if (scan(movement_left) == 1) break;  // без этой проверки не работает с пробелом
         }
-        movement_rigth = movement_left;
+        char movement_rigth = movement_left;
         if (racket(y_racket_left, movement_left, 1) == 1 && movement_left == 'a')
             y_racket_left = y_racket_left - 1;
         else if (racket(y_racket_left, movement_left, 1) == 1 && movement_left == 'z')
@@ -63,7 +66,9 @@ int main(void) {
                 y_ball = 12;
             }
         }
+
         if ((y_ball == 1) || (y_ball == 23)) BallPhase = -BallPhase;
+
         switch (BallPhase) {
             case -1:  // вверх лево
                 y_ball = y_ball - 1;
