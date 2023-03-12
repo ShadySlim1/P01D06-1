@@ -7,7 +7,7 @@ int scan(char movement);
 int getWinner(int score_racket_left, int s);
 int ball_in_racket_one(int x_ball, int y_ball, int y_racket_left, int BallPhase) {
     if (x_ball == 1) {
-        if ((y_ball == y_racket_left) || (y_ball == y_racket_left - 1) || (y_ball == y_racket_left + 1)) {
+        if ((y_ball == y_racket_left) || (y_ball == y_racket_left + 2) || (y_ball == y_racket_left + 1)) {
             if (BallPhase == -1)
                 return -2;
             else
@@ -18,7 +18,7 @@ int ball_in_racket_one(int x_ball, int y_ball, int y_racket_left, int BallPhase)
 }
 int ball_in_racket_two(int x_ball, int y_ball, int y_racket_rigth, int BallPhase) {
     if (x_ball == 78) {
-        if ((y_ball == y_racket_rigth) || (y_ball == y_racket_rigth - 1) || (y_ball == y_racket_rigth + 1)) {
+        if ((y_ball == y_racket_rigth) || (y_ball == y_racket_rigth + 2) || (y_ball == y_racket_rigth + 1)) {
             if (BallPhase == 2)
                 return 1;
             else
@@ -66,7 +66,7 @@ int main(void) {
             }
         BallPhase = ball_in_racket_two(x_ball, y_ball, y_racket_rigth, BallPhase);
         if (x_ball == 79)
-            if ((y_ball != y_racket_rigth) && (y_ball != y_racket_rigth - 1) &&
+            if ((y_ball != y_racket_rigth) && (y_ball != y_racket_rigth + 2) &&
                 (y_ball != y_racket_rigth + 1)) {
                 score_racket_left++;
                 x_ball = 39;
