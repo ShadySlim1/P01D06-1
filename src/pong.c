@@ -2,12 +2,10 @@
 
 void print_playing_field(int x_racket1, int y_racket1, int x_racket2, int y_racket2, int x_ball, int y_ball,
                          int score1, int score2);
-
 int racket(int y_racket, char movement, int num);
 int scan(char movement);
 void getWinner(int score_racket_left);
-int ball_in_racket_one(int x_ball, int y_ball, int y_racket_left,
-                                                             int BallPhase) {
+int ball_in_racket_one(int x_ball, int y_ball, int y_racket_left, int BallPhase) {
     if (x_ball == 1) {
         if ((y_ball == y_racket_left) || (y_ball == y_racket_left - 1) || (y_ball == y_racket_left + 1)) {
             if (BallPhase == -1)
@@ -30,6 +28,22 @@ int ball_in_racket_two(int x_ball, int y_ball, int y_racket_rigth, int BallPhase
     return BallPhase;
 }
 
+int set_y_racket_left(int y_racket_left, int movement_left) {
+    if (racket(y_racket_left, movement_left, 1) == 1 && movement_left == 'a')
+        y_racket_left = y_racket_left - 1;
+    else if (racket(y_racket_left, movement_left, 1) == 1 && movement_left == 'z')
+        y_racket_left = y_racket_left + 1;  // двигаемся вниз
+    return y_racket_left;
+}
+
+int set_y_racket_right(int y_racket_rigth, int movement_rigth) {
+    if (racket(y_racket_rigth, movement_rigth, 2) == 1 && (movement_rigth == 'k'))
+        y_racket_rigth = y_racket_rigth - 1;  // двигаемся вверх
+    else if (racket(y_racket_rigth, movement_rigth, 2) == 1 && movement_rigth == 'm')
+        y_racket_rigth = y_racket_rigth + 1;  // двигаемся вниз
+    return y_racket_rigth;
+}
+
 int main(void) {
     int score_racket_left = 0, score_racket_right = 0, y_racket_left = 12, y_racket_rigth = 12, x_ball = 39,
         y_ball = 11, BallPhase = -1;
@@ -42,14 +56,8 @@ int main(void) {
             if (scan(movement_left) == 1) break;  // без этой проверки не работает с пробелом
         }
         char movement_rigth = movement_left;
-        if (racket(y_racket_left, movement_left, 1) == 1 && movement_left == 'a')
-            y_racket_left = y_racket_left - 1;
-        else if (racket(y_racket_left, movement_left, 1) == 1 && movement_left == 'z')
-            y_racket_left = y_racket_left + 1;  // двигаемся вниз
-        if (racket(y_racket_rigth, movement_rigth, 2) == 1 && (movement_rigth == 'k'))
-            y_racket_rigth = y_racket_rigth - 1;  // двигаемся вверх
-        else if (racket(y_racket_rigth, movement_rigth, 2) == 1 && movement_rigth == 'm')
-            y_racket_rigth = y_racket_rigth + 1;  // двигаемся вниз
+        y_racket_left = set_y_racket_left(y_racket_left, movement_left);
+        y_racket_rigth = set_y_racket_right(y_racket_rigth, movement_rigth);
         BallPhase = ball_in_racket_one(x_ball, y_ball, y_racket_left, BallPhase);
         if (x_ball == 0)
             if ((y_ball != y_racket_left) && (y_ball != y_racket_left - 1) && (y_ball != y_racket_left + 1)) {
