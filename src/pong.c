@@ -95,7 +95,6 @@ int main(void) {
                             score_racket_right);
     }
     getWinner(score_racket_left);
-    return 0;
 }
 
 void getWinner(int score_racket_left) {
